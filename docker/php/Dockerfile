@@ -6,13 +6,22 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql
     
-WORKDIR /var/www/html
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
 COPY . /var/www/html
-COPY --chown=www-data:www-data . /var/www/html/
+WORKDIR /var/www/html
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+USER root
+RUN chmod o+w /var/www/
+RUN chown -R www-data:www-data /var/www/html
+RUN git config --global --add safe.directory /var/www/html
 
 USER www-data
+RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+USER root
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+USER www-data

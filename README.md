@@ -5,7 +5,7 @@ Simple Task Manager API, including some features like testing, database seeding,
 Project developed using:
 - Docker
 - PHP/Laravel
--  PostgreSQL
+- PostgreSQL
 - Nginx
 - l5-swagger package
 ## Prerequisites 
@@ -39,15 +39,15 @@ docker compose up --build
 ```
 3. Run database migrations and seed the database:
 ```
-docker compose exec corebiz-task_manager php artisan migrate:fresh --seed
+docker exec -it corebiz-task_manager-php php artisan migrate:fresh --seed
 ```
 4. Run tests:
 ```
-docker compose exec corebiz-task_manager php artisan test
+docker exec corebiz-task_manager-php php artisan test
 ```
 5. Generate the API documentation:
 ```
-docker compose exec corebiz-task_manager php artisan l5-swagger:generate
+docker exec corebiz-task_manager-php php artisan l5-swagger:generate
 ```
 If you are not setting up the project with Docker, just ignore the execution commands inside the container.
 ## API Documentation format
