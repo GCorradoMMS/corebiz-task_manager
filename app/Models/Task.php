@@ -22,10 +22,13 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
+        'user_id',
+        'expires_at'
     ];
 
     protected $casts = [
         'status' => TaskStatus::class,
+        'expires_at' => 'datetime:Y-m-d H:i:s.u',
     ];
 
     /**

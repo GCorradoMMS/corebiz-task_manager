@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
-            $table->string('status');
+            $table->text('description');
+            $table->enum('status', ['todo', 'doing', 'done']);
             $table->foreignId('user_id')
-            ->constrained()         
-            ->nullOnDelete(); 
+            ->nullable()
+            ->constrained('users')
+            ->onDelete('set null');
             $table->timestamps();
             $table->softDeletes();
         });

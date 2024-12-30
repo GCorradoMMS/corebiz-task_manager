@@ -13,10 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            TaskSeeder::class,
-        ]);
-
         User::factory()
         ->count(50)
         ->hasTasks(1)

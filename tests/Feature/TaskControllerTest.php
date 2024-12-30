@@ -22,4 +22,24 @@ class TaskControllerTest extends TestCase
     public function can_get_all_tasks() {
         
     }
+
+    public function can_get_a_single_tasks() {
+        
+    }
+
+    public function can_create_a_single_tasks() {
+        
+    }
+
+    public function can_edit_a_task() {
+        
+    }
+
+    public function can_delete_a_task() {
+        
+    }
+
+    public function can_update_a_task() {
+        
+    }
 }
