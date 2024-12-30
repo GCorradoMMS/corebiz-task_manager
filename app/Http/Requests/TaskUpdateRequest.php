@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskRequest extends FormRequest
+class TaskUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,37 +16,29 @@ class TaskRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
+     * 
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'status' => 'required|in:todo,doing,done',
-            'expires_at' => 'required|date|after_or_equal:today|date_format:Y-m-d H:i:s',
-            'user_id' => 'sometimes|integer',
+            'name' => 'sometimes|string|max:255', 
+            'description' => 'sometimes|string', 
+            'status' => 'sometimes|in:todo,doing,done',
+            'expires_at' => 'sometimes|date|after_or_equal:today|date_format:Y-m-d H:i:s',
         ];
     }
 
-    
     /**
      * Custom messages for validation errors.
      * 
      * @return array
      */
-    public function messages(): array
+    public function messages()
     {
-        $message = " field is necessary.";
-
         return [
-            'name.required' => "name" . $message,
-            'description.required' => "description" . $message,
-            'status.required' => "status" . $message,
+            'name.string' => "name must be a valid string.",
             'status.in' => "The status field must be 'todo', 'done' or 'doing'",
-            'user_id.integer' => "The user_field is not a valid integer",
-            'expires_at.required' => "expires_at" . $message,
             'expires_at.date' => "expires_at must be a valid date.",
             'expires_at.after_or_equal' => 'expired_date must be today or in the future.',
         ];

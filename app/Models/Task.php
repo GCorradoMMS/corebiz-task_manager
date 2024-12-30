@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 use Database\Factories\TaskFactory;
 use App\Models\Enum\TaskStatus;
@@ -22,13 +23,29 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
+        'status',
         'user_id',
         'expires_at'
     ];
 
+    
+    /**
+     * Casts.
+     *
+     * @var list<string>
+     */
     protected $casts = [
         'status' => TaskStatus::class,
-        'expires_at' => 'datetime:Y-m-d H:i:s.u',
+    ];
+
+    
+    /**
+     * Model attributes.
+     *
+     * @var list<string>
+     */
+    protected $attributes = [
+        'status' => 'todo',
     ];
 
     /**

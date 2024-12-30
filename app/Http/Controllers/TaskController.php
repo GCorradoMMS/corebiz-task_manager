@@ -4,46 +4,72 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Services\TaskService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\TaskRequest;
+use App\Http\Requests\TaskUpdateRequest;
 
 class TaskController extends Controller
 {
+    public function __construct(private TaskService $taskService) {}
+
     /**
-     * Display a listing of the resource.
+     * Get all tasks.
+     *
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $tasks = $this->taskService->getAllTasks();
+        return response()->json($tasks);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new task.
+     *
+     * @param TaskRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request): JsonResponse
     {
-        //
+        $task = $this->taskService->createTask($request->validated());
+        return response()->json($task, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Get a specific task by ID.
+     *
+     * @param int $id
+     * @return JsonResponse
      */
-    public function show(Task $task)
+    public function show(int $id): JsonResponse
     {
-        //
+        $task = $this->taskService->getTaskById($id);
+        return response()->json($task);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a task.
+     *
+     * @param TaskUpdateRequest $request
+     * @param int $id
+     * @return JsonResponse
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskUpdateRequest $request, int $id): JsonResponse
     {
-        //
+        $task = $this->taskService->updateTask($id, $request->validated());
+        return response()->json($task);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a task.
+     *
+     * @param int $id
+     * @return JsonResponse
      */
-    public function destroy(Task $task)
+    public function destroy(int $id): JsonResponse
     {
-        //
+        $this->taskService->deleteTask($id);
+        return response()->json(null, 204);
     }
 }

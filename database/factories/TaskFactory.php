@@ -24,7 +24,7 @@ class TaskFactory extends Factory
             'name' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(),
             'status' => $this->faker->randomElement(TaskStatus::cases()),
-            'expires_at' => Carbon::now()->addDays(rand(1, 30))->format('Y-m-d H:i:s.u'),
+            'expires_at' => Carbon::now()->addDays(rand(1, 30))->format('Y-m-d H:i:s'),
         ];
     }
 }
