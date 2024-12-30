@@ -1,0 +1,334 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TaskManager API",
+        "description": "This is the API documentation for the TaskManager API.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/api",
+            "description": "Local TaskManager API Server."
+        }
+    ],
+    "paths": {
+        "api/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Retrieve all tasks",
+                "description": "Get a list of all tasks.",
+                "operationId": "0062da2aab73fff2a0efbc7e5cd4eb1b",
+                "responses": {
+                    "200": {
+                        "description": "List of tasks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Create a new task",
+                "description": "Create a new task by providing necessary data",
+                "operationId": "createTask",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Task created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "api/tasks/{id}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get a specific task",
+                "description": "Retrieve details of a specific task by its ID.",
+                "operationId": "e9fbd691af1cbe8141c23d5fd360fce6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the task",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Task not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Delete a task",
+                "description": "Delete a specific task by its ID.",
+                "operationId": "5f524588130c81884991d81c2a473a4a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the task",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Task deleted successfully"
+                    },
+                    "404": {
+                        "description": "Task not found"
+                    }
+                }
+            }
+        },
+        "/tasks/{id}": {
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Update an existing task",
+                "description": "Update an existing task by providing the task ID and new data",
+                "operationId": "updateTask",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the task to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Task updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Task not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "title": "Task",
+                "description": "Represents a single task",
+                "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Task ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Task name",
+                        "type": "string",
+                        "example": "Complete project report"
+                    },
+                    "description": {
+                        "description": "Task description",
+                        "type": "string",
+                        "example": "Write and review the project report for submission"
+                    },
+                    "status": {
+                        "description": "Task status",
+                        "type": "string",
+                        "enum": [
+                            "todo",
+                            "doing",
+                            "done"
+                        ],
+                        "example": "todo"
+                    },
+                    "expires_at": {
+                        "description": "Task expiration datetime",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-03-01T14:30:00Z"
+                    },
+                    "user_id": {
+                        "description": "ID of the user who owns the task",
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "created_at": {
+                        "description": "Task creation datetime",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01T10:00:00Z"
+                    },
+                    "updated_at": {
+                        "description": "Task last update datetime",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01T10:30:00Z"
+                    },
+                    "deleted_at": {
+                        "description": "Task deletion datetime",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TaskRequest": {
+                "title": "Task Request",
+                "description": "Data required to create or update a task",
+                "required": [
+                    "name",
+                    "description",
+                    "status"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Task name",
+                        "type": "string",
+                        "example": "Complete project report"
+                    },
+                    "description": {
+                        "description": "Task description",
+                        "type": "string",
+                        "example": "Write and review the project report for submission"
+                    },
+                    "status": {
+                        "description": "Task status",
+                        "type": "string",
+                        "enum": [
+                            "todo",
+                            "doing",
+                            "done"
+                        ],
+                        "example": "todo"
+                    },
+                    "expires_at": {
+                        "description": "Task expiration datetime",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-03-01T14:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "TaskUpdateRequest": {
+                "title": "Task Update Request",
+                "description": "Data to update a task",
+                "properties": {
+                    "name": {
+                        "description": "Task name",
+                        "type": "string",
+                        "example": "Updated task name"
+                    },
+                    "description": {
+                        "description": "Task description",
+                        "type": "string",
+                        "example": "Updated description of the task"
+                    },
+                    "status": {
+                        "description": "Task status",
+                        "type": "string",
+                        "enum": [
+                            "todo",
+                            "doing",
+                            "done"
+                        ],
+                        "example": "doing"
+                    },
+                    "expires_at": {
+                        "description": "Task expiration datetime",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-01T10:00:00Z"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tasks",
+            "description": "Tasks"
+        }
+    ]
+}
